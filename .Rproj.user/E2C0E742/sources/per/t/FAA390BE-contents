@@ -1,0 +1,113 @@
+# Glossary entries
+
+```{r 1-1, include=FALSE}
+library(FactoMineR)
+library(factoextra)
+```
+
+## Exploratory Data Analysis (EDA)
+  
+   It is a concept that getting familiar with the data from the blank white paper.
+By doing so, it enables to build assumptions regarding the operationalization of data and check the quality of the data. As a process, firstly, generate questions about the data, secondly, search for answers by using main tools of EDA such as  visualization, transformation and modelling. Then, use what is learned to refine the questions and generate new questions.
+   The goal during EDA is to develop an understanding of the data.
+
+## Principal Component Analysis (PCA)
+ 
+  In order to interpret the increasingly widespread large datasets, methods which reduce the dimensionality of the datasets in an interpretable way are required. Principal component analysis(PCA) is one of the oldest and most widely used method. 
+  PCA is used to extract the information from a multivariate dataset to express the dataset as a set of few new variables called principal components, which corresponds to a linear combination of the original dataset. PCA assumes that the directions with the largest variances are the most important. The goal of PCA is to identify the principal components along which the variation in the data is maximal. 
+  It is mostly used in the field of explanatory studies to make predictive models.  
+  In plot 1A, PC1 axis is the first principal direction which the samples show the largest variations, PC2 axis is the second most important direction. It can be reduced to a two-dimension plot by projecting PC1 and PC2 on the first principal component shown in Plot 1B. 
+
+![© Kassambara, 2017](PCA_intro.png){ width=60% }
+
+
+## Factor Analysis
+  
+  Prior to PCA which has only become possible at the computer age, a related method was factor analysis, which was extensively applied to psychometric data. The aim of factor analysis is to summarize a set of variables by a smaller number of variables which helps in data interpretation. It is a linear statistical model, used to explain the variance among the observed variable and condense a set of the observed variable into the unobserved variable which is called factors (see the figure below). Factor analysis is on variables, not on individuals. 
+  
+![© Navlani, 2019](Factoranalysis.png){ width=50% }
+
+## Cluster Analysis
+  
+  Cluster analysis is similar as PCA, one of the important methods for discovering knowledge in multidimensional data but differs since cluster analysis goes further to specify the characteristics of each sub-groups according to a defined distance measure.
+Cluster analysis is applied in various fields of marketing, retail, medical science, sociology and so on. 
+  The goal of clustering is to identify pattern or groups of similar objects within a dataset.
+  Following figure shows an example of cluster analysis of the states in the U.S. regarding arrested records. 
+
+```{r 1-2, message=FALSE, out.width = "60%"}
+data("USArrests")
+df_a <- scale(USArrests)
+res.km <- eclust(df_a, "kmeans", nstart = 25)
+```
+
+
+## Correspondence Analysis (CA)
+  
+  Correspondence analysis is the leading case of Geometric Data Analysis. CA is similar with PCA in the aspect of providing a solution for summarizing and visualizing data set into two-dimension plots, at the same time, as an extension of PCA, suited to explore among categorical data. CA is a geometric approach for visualizing the rows and columns of a two-way contingency table, in which positions of the row and column points are consistent with their association in the visualization. The goal of CA is to have a global view of the data that is useful for interpretation. 
+  Following contingency table shows the data regarding division of housetasks in the couple, following graph visualizes the CA in the function of biplot, rows are represented by blue points and columns by red triangles.  
+
+![© Kassambara, 2017](housework.png){ width=55% }
+
+```{r 1-3,message=FALSE, out.width = "60%"}
+data(housetasks)
+dt <- as.table(as.matrix(housetasks))
+res.ca <- CA(housetasks, graph = FALSE)
+fviz_ca_biplot(res.ca, repel = TRUE)
+```
+
+## Eigenvalues
+  
+  Eigenvalues are the values which won't be changed even the surface of the vector got moved in different directions. In PCA, eigenvalues measure the amount of variation retained by each principle component, in CA, eigenvalues correspond to the amount of information retained by each axis. Also, eigenvalues can be used to determine number of principal components/axis to be considered. In factor analysis, an eigenvalue is a measure of how much of the variance of the observed variables a factor explains. 
+  The mathematics of eigenvalue is shown as following formula.
+  
+![© MathsisFun, 2019](eigenvalue.png){ width=50% }
+  
+  
+## Eigenvectors
+  
+  Eigenvectors are the vectors which won't change the directions even the surface of the vector got changed. Each eigenvector has a corresponding eigenvalue, if eigenvectors are sorted in descending order with respect to their eigen values, we will have the first eigenvector accounts for the largest spread among data, the second one for the second largest spread and so on. 
+ In following example, the direction in green is the eigenvector, it has a corresponding eigenvalue which describes its magnitude. 
+ 
+![© Alto, 2019](eigens.png){ width=50% }
+  
+## Variance
+  
+  Variance shows how the group of the numbers are spreading around from its average.
+If the variance has a large number, it means there is a large variation in numerical values within a group of the data. In PCA and CA, the large value of variance shows the importance, which means variance is showing the amount of information. Dimensions are ordered and listed accordingly to the amount of variance, dimension 1 explains the most variance, followed by dimension 2 and so on. Also, it is corresponding with the eigenvalue (see the table below.)
+
+![© Kassambara, 2017](eigenvariance.png){ width=70% }
+
+## Covariance
+  
+  Covariance is the index which shows the relations of two variables. It is calculated as mean of deviations of two variables. As the value of covariance gets larger (in both positive and negative directions), which means that the correlation of two variables is strong, if the value is close to zero, which means there is almost no relations between two variables. 
+  The following figure shows the shape of covariance matrix.
+$$
+{\sum =} \genfrac[]{0pt}{2}{Var(x) Cov(x,y)}{Cov(x,y) Var(y)} 
+$$  
+
+![© Alto, 2019](covariance.png){ width=60% }
+
+
+
+
+## References
+
+Alto.V.(2019).PCA: Eigenvectors and Eigenvalues. Towards data science. [online].Retrieved from https://towardsdatascience.com/pca-eigenvectors-and-eigenvalues-1f968bc6777a [accessed on 14.06.2020].
+
+Garrett.G. and Wickham.H.(2017). R for Data science. O'Reilly.
+
+Jolloffe.I. and Cadima.J. (2016). Principal component analysis: a review and recent developments. The royal society publishing.[online].Retrieved from https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202 [accessed on 14.06.2020].
+
+Kassambara.A. (2017).  Articles - Principal Component Methods in R: Practical Guide. CA - Correspondence Analysis in R: Essentials. [online]. Retrieved from http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/113-ca-correspondence-analysis-in-r-essentials/ [accessed on 15.06.2020]. 
+
+Kassambara.A. (2017). Practical Guide To Cluster Analysis in R. sthda.com . Edition 1.  
+
+Le Roux.B.and Rouanet.H. (2004). Geometric Data Analysis. Kluwer Academic Publishers. 
+
+MathsisFun (2019).Eigenvector and Eigenvalue. [online].Retrieved from https://www.mathsisfun.com/algebra/eigenvalue.html [accessed on 14.06.2020].
+
+Navlani.A. (2019). Introduction to Factor Analysis in Python. DataCamp. [online].Retrieved from https://www.datacamp.com/community/tutorials/introduction-factor-analysis?utm_source=adwords_ppc&utm_campaignid=898687156&utm_adgroupid=48947256715&utm_device=c&utm_keyword=&utm_matchtype=b&utm_network=g&utm_adpostion=&utm_creative=229765585186&utm_targetid=aud-299261629574:dsa-429603003980&utm_loc_interest_ms=&utm_loc_physical_ms=1003088&gclid=EAIaIQobChMIoo7Oy_GB6gIViBsYCh2diAVmEAAYASAAEgIEUfD_BwE [ accessed on 15.06.2020].
+
+Patili.P. (2018).What is Exploratory Data Analysis? Towards Data Science. [online]. Retrieved from https://towardsdatascience.com/exploratory-data-analysis-8fc1cb20fd15[accessed on 14.06.2020]. 
+
+Rahn.M.Factor Analysis: A Short Introduction, Part 1. The analysis factor.[online].Retrieved from https://www.theanalysisfactor.com/factor-analysis-1-introduction/#:~:text=In%20every%20factor%20analysis%2C%20there,factors%20as%20there%20are%20variables.&text=The%20eigenvalue%20is%20a%20measure,than%20a%20single%20observed%20variable.[accessed on 16.07.2020].

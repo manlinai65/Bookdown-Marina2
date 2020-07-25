@@ -1,0 +1,23 @@
+--- 
+title: "Final Glossary Bookdown"
+author: "Marina Obata"
+date: "`r Sys.Date()`"
+output: word_document
+description: Final Glossary
+documentclass: book
+link-citations: yes
+bibliography:
+- book.bib
+- packages.bib
+site: bookdown::bookdown_site
+biblio-style: apalike
+---
+
+# Index for final Glossary
+
+## 1.Glossary entries
+## 2.Glossary -PCA-
+## 3.Glossary -Factor Analysis-
+## 4.Glossary -MCA,CA-
+## 5.Glossary -Cluster analysis-
+

@@ -1,0 +1,111 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Glossary 5 (Cluster Analysis)
+
+```{r 5-1, include=FALSE}
+library(distances)
+library(factoextra)
+library(FactoMineR)
+```
+
+
+## Euclidean distance
+
+  In cluster analysis, the proximities between individuals are quantified by distance measures, Euclidean distance measure is the most commonly used one, it used to assign points to clusters. It treats each variable as equally important when calculating the distance, usually computed from raw data, not from standardized data. In order to calculate the Euclidean distance, the sum of squared distances of adjoining side(B), opposite side(A) of the hypotenuse(C) are square rooted (sqrt(A^2 + B^2), see the image below). If Euclidean distance is chosen, the observations with high values of features will be clustered together, so will be for the observations with low values of features.  
+    
+![© Tryfos, 2001](Euclidean.png){ width=50% }
+
+Following matrix table shows an example of Euclidean distance from the data of arrested record in the U.S. 
+```{r 5-2 }
+set.seed(123)
+ss <- sample(1:50, 15)
+df5 <- USArrests[ss, ] 
+df.scaled <- scale(df5) 
+dist.eucl <- dist(df.scaled, method = "euclidean")
+round(as.matrix(dist.eucl)[1:3, 1:3], 1)
+```
+
+
+## Manhattan distance
+    
+  Manhattan distance captures the distance by aggregating the pairwise absolute difference between each variable. It follows a route along the non-hypotenuse sides of a triangle. The name of Manhattan is referring the grid-like layout of most American cities in which it is hard to go directly between two points. The difference between Euclidean distance is that it is not using the squared distance, just summing the absolute numbers(see the image below). Manhattan distance is less sensitive to outliers when applied to cluster analysis. 
+    
+$$
+d(i.j) = \sum|Xik-Xjk|
+$$
+
+![© Chatterjee, 2019](Manhattan.png){ width=40% }
+
+  Following matrix table shows an example of Euclidean distance. As you can see, even though the used data is the same, it shows different values from Euclidean distance, having larger distances.
+```{r 5-3}
+dist.manh <- dist(df.scaled, method = "manhattan")
+round(as.matrix(dist.manh)[1:3, 1:3], 1)
+```
+
+
+## Mahalanobis distance
+
+  The Mahalanobis distance is an approach to scale the distance in accordance with the variability of each variable. In the K-means algorithm, the Mahalanobis distance metric could be used to capture the variance structure of the clusters, it allows K-means to identify non-homogeneous clusters. When correlations between variables within groups are small, Mahalanobis distance will be similar as squared Euclidean distance. Which means, Mahalanobis distance increases when the distance of centers between two groups increases, it decreases when there are larger variations within the group. It is suggested by Kurczynski(1969) to adapt the generalized Mahalanobis distance with categorical variables. 
+
+![© Chatterjee, 2019](Mahala.png){ width=40% }
+
+The following calculation is showing the mahalanobis distance from the same data of arrested record in the U.S. 
+```{r 5-4}
+dist.mahala <- distances(df.scaled, normalize = "mahalanobize")
+df.n <- round(as.matrix(dist.mahala)[1:3, 1:3], 1)
+rownames(df.n) <- c("New Mexico", "Iowa", "Indiana")
+colnames(df.n) <- c("New Mexico", "Iowa", "Indiana")
+df.n 
+```
+
+As it is mentioned, it is closer to Euclidean distance than Manhattan distance in this example.
+
+
+## Hierarchical clustering
+
+   Hierarchical clustering is one of the main categories of clustering techniques, it concerns a suitable choice of a distance function to express the distance and patterns. It is a statistical method for finding relatively homogeneous clusters, based on distances between objects. It reduces the number of clusters by combining the clusters having similar characteristics at each level till reach to only one cluster left (see the image below). 
+
+![© Sinharay, 2010](Hierarchical.png){ width=40% }
+
+## Partitioning
+
+  Partitioning is a process in cluster analysis, grouping the similar observations into homogeneous subsets. For example, partitioning in hierarchical analysis means the process to combining the similar clusters at each level. 
+  The Partitioning-based clustering is one of the major types of cluster analysis, Grabmeier and Rudolph's (2002) taxonomy separated partitioning methods from hierarchical methods. This method is based on interactive relocation of data points between clusters, the quality is measured by a clustering criterion. There are various types of partitioning clustering algorithms such as K-means, K-methods, FCM, CLARANS. 
+  Among that, K-means requires the analyst to define K number of clusters before running the algorithm. 
+    
+## Dendrogram
+
+  Dendrogram is a type of tree shaped diagram showing the hierarchical clustering, it can visualize how close/far the clusters are to other clusters(see the figure below). Those clades with different heights are indicating how similar/dissimilar the clusters are, having same heights of clades meaning that they are similar to each other. Also, dendrogram is illustrating the process of divisions which have been made at each level of hierarchical analysis, it enables to decide the level at which to cut the tree for suitable number of clustering groups.
+  Following dendrogram shows the example data of arrested records in the U.S.
+  
+```{r 5-5, results='hide', fig.keep='all', out.width = "60%"}
+res.dist <- dist(df5, method = "euclidean")
+res.hc <- hclust(d = res.dist, method = "ward.D2")
+fviz_dend(res.hc, cex = 0.5)
+```
+
+
+
+## References
+
+Chatterjee.D.R.(2019).Log Book — Guide to Distance Measuring Approaches for K- Means Clustering. Towards data science. [online].Retrieved from https://towardsdatascience.com/log-book-guide-to-distance-measuring-approaches-for-k-means-clustering-f137807e8e21 [accessed on 15.06.2020].
+
+Deltaflair Team (2019). Clustering in R – A Survival Guide on Cluster Analysis in R for Beginners![online].Retrieved from https://data-flair.training/blogs/clustering-in-r-tutorial/ [accessed on 15.06.2020].
+
+Kassambara.A. (2017).Articles - Cluster Analysis in R: Practical Guide. Essentials. Statistical tool for high-thoughtput data analysis. [online]. Retrieved from http://www.sthda.com/english/articles/25-clusteranalysis-in-r-practical-guide/ [accessed on 15.06.2020].
+
+Kassambara.A. (2017). Practical Guide To Cluster Analysis in R. sthda.com . Edition 1. 
+
+Kassambara.A. (2017).Articles - Principal Component Methods in R: Practical Guide. Principal Component Analysis in R: prcomp vs princomp. [online].Retrieved from http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/118-principal-component-analysis-in-r-prcomp-vs-princomp/ [accessed on 15.06.2020]. 
+
+Le Roux.B.and Rouanet.H. (2004). Geometric Data Analysis. Kluwer Academic Publishers. 
+
+Nalson.J.(2012). ON K-means Clustering Using Mahalanobis Distance[onlone]. Retrieved from https://pdfs.semanticscholar.org/b029/5854310ef3e35a0d71bd73554840e38a5bd8.pdf [accessed on 16.06.2020]. 
+
+Savje.F. (2019). Package ‘distances’. CRAN.[online].Retrieved from https://cran.r-project.org/web/packages/distances/distances.pdf [accessed on 15.06.2020]. 
+Sinharay.S.(2010).International Encyclopedia of Education (Third Edition).Cluster Analysis.  
+
+Tryfos.P.(1997). Chapter 15 Cluster analysis.[online].Retrieved from http://www.yorku.ca/ptryfos/f1500.pdf [accessed on 15.06.2020].

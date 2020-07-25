@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592395441370.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2831145666",
+    "id" : "8BD55D19",
+    "lastKnownWriteTime" : 1592390451,
+    "last_content_update" : 1592390451,
+    "path" : "~/Documents/Bookdown-MarinaObata2/03-Glossary-FactorAnalysis.Rmd",
+    "project_path" : "03-Glossary-FactorAnalysis.Rmd",
+    "properties" : {
+        "cursorPosition" : "44,677",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

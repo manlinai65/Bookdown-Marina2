@@ -1,0 +1,147 @@
+# Glossary 4 (MCA, CA)
+
+```{r 4-1, include=FALSE}
+library(factoextra)
+library(FactoMineR)
+```
+
+## Multiple Correspondence Analysis vs Correspondence Analysis
+  
+  Correspondence analysis (CA) is an extension of PCA, for a large contingency table formed by two qualitative categorical variables. It enables to study the relative relationships between two groups of variables.  Multicorrespondence analysis (MCA) is a generalization of CA for a contingency table formed by more than two qualitative categorical variables, it enables to study the association between more qualitative variables. Also, MCA can be applied to a table which has more than two dimensions. 
+    To summarize, CA enables to analyze relative relationship between two categorical variables, MCA enables to analyze the associations between more than two qualitative categorical variables. 
+    
+![© Kassambara, 2017](MCA,CA.png){ width=60% }
+
+
+## Cloud of individuals in MCA
+  
+  In the contingency table, individuals are shown as rows, thus, cloud of individuals are also called as points of rows. The distance between individuals of the cloud are determined by the responses to the categories of given questions, according how they answered differently. In MCA data presentation, it is also possible to present the cloud of individuals in accordance with the group of category in which the each point of individual belongs. Additionally, it enables to observe the outliers and individuals having similar characteristics which might help interpretation of the dataset. 
+  In the example of data called "poison", cloud of individuals are shown as follows.
+  
+```{r 4-2, results='hide', fig.keep='all', message=FALSE, out.width = "60%"}
+data(poison)
+poison.active <- poison[1:55, 5:15]
+res.mca4 <- MCA(poison.active, graph = FALSE)
+fviz_mca_ind(res.mca4, col.ind = "cos2", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE, 
+             ggtheme = theme_minimal())
+```
+  
+
+## Cloud of categories in MCA
+    
+   In the contingency table, categories are shown as columns, thus, cloud of categories are describing the clouds of columns of the dataset. The weight of a category is proportional to how common it is in the data, thus, in MCA, uncommon categories are located far from origins, the categories having similar characteristics are locating close to each other. 
+   In the example of data "poison", cloud of categories are shown as follows. In this example, category "Ice cream_no" and "Potato_no" are locating far, therefore, could be considered as uncommon in the given dimension. 
+   
+```{r 4-3, results='hide', fig.keep='all', out.width = "60%"}
+fviz_mca_var(res.mca4, 
+             repel = TRUE, 
+             ggtheme = theme_minimal())
+```   
+
+## Proﬁle
+  
+  Profile means how the individual are related to the categories, if they have similar answer patterns towards categories, these individuals are close to each other, having a similar profile, if they answered very differently, these individuals locate farther apart. 
+  In the example of data "poison", a group of individuals [26, 29, 33, 34, 42, 48, 49] is considered as having a similar profile in the given dimensions.  
+  
+```{r 4-4, results='hide', fig.keep='all', out.width = "60%"}
+fviz_mca_biplot(res.mca4, 
+               repel = TRUE,
+               ggtheme = theme_minimal())
+```   
+
+## Weight
+  
+  A weight is used in statistics in order to increase or decrease the importance of an item, this process is called as weighting. The weighting is used in MCA in order to balance measure of the similarity of the individuals against all the questions. In CA, the marginal values are used for weighting in order to give more or less importance to the display of the individual profiles regarding row and columns. As it is shown in the following example, the category 'Modern art' and 'Landscape' have rather similar contributions to axis 2, category Modern art has more distant from the center of axis 2 but smaller weight, however, category Landscape has less distant but more weighted. 
+
+![© Le Roux and Rouanet, 2010](table MCA.png){ width=50% }
+![© Le Roux and Rouanet, 2010](graph MCA.png){ width=50% }
+
+## Inertia
+  
+  Inertia is the value which counts the distance of clouds of points in MCA. If the category has less frequency or having higher variance, the inertia gets higher. The total inertia which is a multidimensional extension of the concept of variance is defined as the sum of the squared distances from individuals to the center of gravity, weighted by the weight of the individuals. 
+    It is different from PCA since inertia, which counts for constructing the distance in MCA is related to constructing dimensions in PCA.
+
+
+## Chi-Square-Distance
+  
+  Both MCA and CA depends on the contingency tables, a commonway of describing the relationships in contingency table is the chi-square statistic, which tests for significant associations between rows and columns. 
+  Chi-Square-Distance shows the similarity between two row profiles, which are the individuals and between column profiles of a two-way table. When Chi-Square shows the low value, it means there is a high correlation in between since it rejects the Null hypothesis of the rows and columns are independent. As a remark, in comparison to PCA, CA uses Chi-square value in stead of total variance when testing the independence. In MCA, the chi-squared distance is used as well since MCA is presented as a CA of the Burt matrix (explained in 5.13'Burt matrix'). 
+  
+  
+## Contribution
+  
+  Contribution means how the elements are contributed in drawing MCA/CA, it depends both on the distance from the point to the origin point along the axis and on the weight of the point. It plays an important role for interpretation. If the category lies outside the confidence circle which locates in the middle of observations, having high variance, it could be considered contributing to the dependency, however, if it lies within the circle, the contribution seems low.
+    In the example of data "poison", following barplots are showing the contribution of variable categories. If we compare the barplot of dimension 2 and summary of data "poison", , the categories which have low frequency is showing the higher contribution, however, it depends on the dimension.
+    
+```{r 4-5, fig.keep='all', out.width = "50%"}
+fviz_contrib(res.mca4, choice = "var", axes = 1, top = 15)
+fviz_contrib(res.mca4, choice = "var", axes = 2, top = 15)
+
+summary(poison)
+```   
+
+## Supplementary variables/individuals in CA/MCA
+  
+  Supplementary variables/individuals are in contrast to the active individuals/variables which are used for the determination of the MCA/CA, not participating them, however, it may help to interpret the data. Their coordinates are predicted by using only the information provided by the performed MCA/CA on active individuals/variables. It is also possible to highlight the correlation between active and supplementary variables and dimensions in MCA/CA, however, supplementary variables/individuals don't contribute to the construction of the axes.
+  In the example of data "poison", the supplementary variables are "time" and "age", supplementary individuals are [53, 54, 55].
+```{r 4-6, results='hide', fig.keep='all', out.width = "50%"}
+MCA(poison, ind.sup = 53:55, 
+               quanti.sup = 1:2, quali.sup = 3:4,  graph=TRUE)
+```
+    
+  quasi.sup' and 'quail.sup' are specifying the indexes of quantitative and qualitative variables. 'ind.sup' is the numeric vector, specifying the indexes of the supplementary individuals.
+
+
+## Concentration ellipse
+  
+  Concentration ellipse provides geometric summaries of subclouds, for a normally shaped cloud, the concentration ellipse sums up plus, minus 2 standard divination in a two-dimensional distribution, containing about 86% of the points of the cloud. As an example, it allows to examine the dispersion of individuals belonging to particular or supplementary categories. 
+
+```{r 4-7, results='hide', fig.keep='all', out.width = "60%", fig.cap="An example of confidence ellipse"}
+grp <- as.factor(poison.active[, "Vomiting"])
+fviz_mca_ind(res.mca4, habillage=grp,
+             addEllipses=TRUE)
+```   
+        
+        
+## Confidence ellipse
+  
+  Confidence ellipses shows the region that constrains the certain amount of (i.e. 95%) confidence ellipses of all cloud of points which can be drawn from the MCA/CA. It plots the confidence ellipses around group mean point, as an example, it enables to visualize whether two categories differ significantly. 
+
+![© Kassambara, 2017](confident ellipse.png){ width=50% }
+
+## Binary indicator matrix
+  
+  Binary indicator matrix has only the values 0 and 1, the individuals/groups are listed as rows, the categories are listed as columns. Thus, the number of rows are the total sample items, and the columns are the total categories of the variables. If the item is corresponding to the category of the variable, the elements in the indicator matrix shows 1, if not, it shows 0. This indicator matrix helps to see the characteristics of the cloud simply, at the same time, to consider the distances in between.
+    
+![© Husson, 2014](IDM.png){ width=70% }
+
+## Burt matrix
+  
+  Burt matrix is assembling all the relevant cross-tables into a square super matrix of cross-tables in CA. It includes the diagonal associations between each variables and itself. Only the information about the relationship between categories are included, however, it is possible to present the information about individuals on the graph by projecting the indicator matrix as supplementary elements. 'Z' from the figure below is often called matrix of dummy variables, the elements of Z are zeros except for the ones indicating the categories of response of each respondent. MCA is a method that the usual CA algorithm is applied to a burt matrix. 
+    
+![© Beh and Lombardo, 2019](burt matrix.png){ width=70% }
+
+## References
+Beh.E.J. and Lombardo.R. (2019).Multiple and multiway correspondence analysis. Wiley Online Library. [online]. Retrieved from https://onlinelibrary.wiley.com/doi/abs/10.1002/wics.1464 [accessed on 15.06.2020]. 
+
+Costa.P.S., Santos.N.C., Cunha.P., Cotter.J. and Sousa. Nuno. (2013).The Use of Multiple Correspondence Analysis to Explore Associations between Categories of Qualitative Variables in Healthy Ageing. Journal of Asing Research. [online].Retrieved from https://www.hindawi.com/journals/jar/2013/302163/ [accessed on 15.06.2020].
+
+Greenacre.M. and Blasius.J.(2006).Multiple Correspondence Analysis and Related Methods.Chapman & Hall/CRC.
+
+Hjellbrekke. J. (2018). Multiple Correspondence Analysis for the Social Sciences. Routledge. 
+
+Husson.F.(2014). Multiple Correspondence Analysis.The Visualization and Verbalization of DataChapter: Multiple Correspondence Analysis.CRC/PRESS.
+
+Husson.F., Lê. S. and Pagès. J. (2017).Exploratory Multivariate Analysis by Example Using R. Second edition. Chapman & Hall/CRC.
+
+Kassambara.A. (2017).  Articles - Principal Component Methods in R: Practical Guide. CA - Correspondence Analysis in R: Essentials. [online]. Retrieved from http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/113-ca-correspondence-analysis-in-r-essentials/ [accessed on 15.06.2020]. 
+
+Kassambara.A. (2017). Articles - Principal Component Methods in R: Practical Guide. MCA - Multiple Correspondence Analysis in R: Essentials. Statistical tool for high-thoughtput data analysis. [online]. Retrieved from http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/114-mca-multiple-correspondence-analysis-in-r-essentials/ [accessed on 15.06.2020]
+
+Kassambara.A. (2017). Practical Guide To Cluster Analysis in R. sthda.com . Edition 1. 
+
+Le Roux.B.and Rouanet.H. (2004). Geometric Data Analysis. Kluwer Academic Publishers. 
+
+Le Roux.B. and Rouanet.H. (2010).Multiple Correspondence Analysis.Sage Publications.  

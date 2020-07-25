@@ -1,0 +1,93 @@
+# Glossary 2 (PCA)
+
+```{r 2-1,include=FALSE}
+library(FactoMineR)
+library(factoextra)
+```
+
+## Cloud of variables
+  
+  In Geometric Data Analysis(GDA), there are three main paradigms, which are Simple Correspondence Analysis(CA), studies contingency tables, Principle Component Analysis(PCA), studies Individuals x Numerical variables tables and Multiple Correspondence Analysis (MCA), studies Individuals x Categorical variables tables.
+In GDA, cloud of plots are built using numerical data sets. In PCA, cloud of variables includes not only the elements from majour variables, but also supplementary elements. 
+The cloud of variables is a representation of the associations between variables which can be quantified by linear correlation coefficient, it can be defined by a set of vectors starting from the center, the correlation coefficient characterizes the angle.
+It is explained as following image.
+
+![© Aluja-Banet.T. et al(2019).](Figure_variable.png){ width=50% }
+
+## Cloud of individuals
+  
+  Cloud of individuals are also related to GDA in PCA, MCA and CA. Cloud of individuals can be considered as cloud of row-points, more related to individual factors (i.e. Country, Person, Genes etc..). 
+Cloud of individuals can contribute to the systematical analysis in especially economic field research in combination with more qualitative methods since it enables us to investigate the empirical description of all relevant actors in the particular social space. 
+The following example shows the cloud of individuals in PCA, as we can see, it also indicates how strong individuals are contributing. Additionally, it enables to observe the outliers and individuals having similar characteristics. 
+
+![© Kassambara (2017).](individuals.png){ width=50% } 
+
+## Principal Component
+  
+  When we want to analyse the data which has cloud of the observations, spreading by the variables and individuals, principal component helps to find the structure of the clouds.
+Principal component is the line which goes between the points composing the swarm to where the data variation is maximized. Also, passes through the central point of the cloud. It is an important information from a multivariate data table, expressing the information as a set of few new variables. 
+From each point of spread observations, the relations between the drawn principal component is 90 degrees of straight line (see the image below.)
+Moreover, in case of the first principal line is not explaining the other variables well, by repeating this projection procedure, several more principal component can be found.  
+
+![© image by Joon](PC1_2.png){ width=50% }
+
+## Active variables
+  
+  Active variables are the variables which may have important influences on the structure of the point clouds. Also, it is directly connected with the research question of what to be examined in the survey. Among variables, active variables will serve to define the distances between individuals. 
+In the example below, active variables are subset from whole variables of the dataset 'decathlon'. Which means that in this dataset, these variables are having influences on the structure. 
+
+```{r 2-2, message=FALSE}
+data(decathlon2)
+decathlon2.active <- decathlon2[1:23, 1:10]
+head(decathlon2.active[, 1:6], 4)
+```
+
+## Supplementary variables
+  
+  Supplementary variables can also be called as "passive variables". Compared to active variables, they are not directory influencing on the structure. However, they have variety of analytic possibilities, it helps to distinguish certain groups of individuals by integrating ANOVA analysis. By doing so, supplementary variables can find correlation of themselves in the space constructed by active variables. 
+  As an example, the study which researched about life style and consumption from the point of view of groups and interests, the active variables were set as question on tastes and cultural practices, the variables of socio-demographic and occupation were set as supplementary variables.
+  Another example below is showing continuously the dataset of 'decathlon' from 3.4'active variables', the variables shown in red are indicating the supplementary variables, which are 'rank' and 'points' of athletes, in contrast to the active variables showing the name of events.
+
+```{r 2-3, message=FALSE, out.width = "60%"}
+data(decathlon2)
+res.pca2 <- PCA(decathlon2, ind.sup = 24:27, 
+               quanti.sup = 11:12, quali.sup = 13, graph=FALSE)
+fviz_pca_var(res.pca2,
+             col.var = "black",     
+             col.quanti.sup = "red" 
+             )
+```
+
+## Eigenvalues (interpretation in Factor Analysis and Principal Component Analysis)
+  
+  Eigenvalues express the total amount of variance which can be explained by a principal component. If the eigenvalue is close to zero, multicollinearity must be doubted. In factor analysis, eigenvalues can be the indicator of factor; if it has low values, it means less importance than the factors with higher values since it is related to the explanatory abilities towards variances in variables. 
+  In PCA, the eigenvalues of correlation represent the "core" of PCA, it explains the degree of the variance of the data along with the new axis of principal component to be created.
+
+## Rotation
+  
+  Rotation means a movement of an axis which goes between cloud of points. This cloud of points can be considered as group of rotation here. The point which stays the same in any dimension in rotation is called as center of rotation (the green point in the image). As the group rotates, the variance of the axis changes, the best fit would be when axis's rotation stops where the variance shows the largest value. In GDA, it is better to doubt the homogeneity of the data when a rotation of one of the first axis occurs. 
+  
+![© Cinderella image](Rotation.png){ width=60% }
+
+## Screeplot
+  
+  As an alternative method to determine the number of principal components apart from eigenvalues is to look at scree plot. Screeplot displays the cumulative variance explained by each principal component in descending order. A good solution to determine the number of components might be the point which screeplot displays an 'elbow', in case the 'elbow' is not observable, as a rule of thumb, more than 70 percent of cumulative number of explained variance is a good value to judge. 
+  From the example of the dataset 'decathlon', following figure shows its scree plot.
+
+```{r 2-4, message=FALSE, out.width = "60%"}
+fviz_eig(res.pca2, addlabels = TRUE, ylim = c(0, 50))
+```
+
+
+
+
+## References
+Auja-Banet.T., Morineau.A. and Sanchez.G.(2018). Principal Component Analysis for Data Science (pca4ds). [online].Retrieved from https://pca4ds.github.io/index.html [accessed on 15.06.2020]. 
+
+Jolloffe.I. and Cadima.J. (2016). Principal component analysis: a review and recent developments. The royal society publishing.[online].Retrieved from https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202 [accessed on 14.06.2020]
+
+Kassambara.A. (2017).Articles - Principal Component Methods in R: Practical Guide. Principal Component Analysis in R: prcomp vs princomp. [online].Retrieved from http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/118-principal-component-analysis-in-r-prcomp-vs-princomp/ [accessed on 15.06.2020]. 
+
+Le Roux.B.and Rouanet.H. (2004). Geometric Data Analysis. Kluwer Academic Publishers. 
+
+Image source: Joon.Y. Principal Component Analysis. [online].Retrieved from https://www.cheric.org/files/education/cyberlecture/d201401/d201401-601.pdf [accessed on 22.03.2020]. 

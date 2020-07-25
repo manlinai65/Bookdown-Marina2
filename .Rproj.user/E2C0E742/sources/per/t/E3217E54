@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592395440477.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3433026120",
+    "id" : "E3217E54",
+    "lastKnownWriteTime" : 1592390426,
+    "last_content_update" : 1592390426,
+    "path" : "~/Documents/Bookdown-MarinaObata2/02-Glossary-PCA.Rmd",
+    "project_path" : "02-Glossary-PCA.Rmd",
+    "properties" : {
+        "cursorPosition" : "76,11",
+        "scrollLine" : "28"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592515967971.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3654975777",
+    "id" : "944229CA",
+    "lastKnownWriteTime" : 1592391758,
+    "last_content_update" : 1592391758,
+    "path" : "~/Documents/Bookdown-MarinaObata2/_output.yml",
+    "project_path" : "_output.yml",
+    "properties" : {
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "yaml"
+}

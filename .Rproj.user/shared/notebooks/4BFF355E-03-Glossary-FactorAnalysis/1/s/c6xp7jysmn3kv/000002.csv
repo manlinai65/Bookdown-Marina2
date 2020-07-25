@@ -1,0 +1,8 @@
+"0","library(psych)
+library(GPArotation)
+library(FactoMineR)
+"
+"2","Registered S3 method overwritten by 'dplyr':
+  method           from
+  print.rowwise_df     
+"

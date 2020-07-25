@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592395439687.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3879973147",
+    "id" : "FAA390BE",
+    "lastKnownWriteTime" : 1592395183,
+    "last_content_update" : 1592395183,
+    "path" : "~/Documents/Bookdown-MarinaObata2/01-Glossary-entries.Rmd",
+    "project_path" : "01-Glossary-entries.Rmd",
+    "properties" : {
+        "cursorPosition" : "83,2",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
